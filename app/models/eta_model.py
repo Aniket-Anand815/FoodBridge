@@ -1,0 +1,1 @@
+from sqlalchemy import Column, Integer, Float, Stringfrom app.database.db import Baseclass ETARecord(Base):    __tablename__ = "eta_records"    id = Column(Integer, primary_key=True, index=True)    distance_km = Column(Float)    ngo_load = Column(Integer)    traffic_factor = Column(Float)    predicted_eta = Column(Float)    requested_by = Column(String)
