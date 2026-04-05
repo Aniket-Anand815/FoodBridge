@@ -1,8 +1,8 @@
-const API="http://127.0.0.1:8000"
+const API="http://127.0.0.1:8001"
 
 export async function loginUser(username,password){
 
- const res = await fetch("http://127.0.0.1:8000/auth/login",{
+ const res = await fetch("http://127.0.0.1:8001/auth/login",{
 
   method:"POST",
 
@@ -78,7 +78,7 @@ export async function predictEta(distance){
 }
 export async function registerUser(username,password,role){
 
- const res = await fetch("http://127.0.0.1:8000/auth/register",{
+ const res = await fetch("http://127.0.0.1:8001/auth/register",{
 
   method:"POST",
 
@@ -88,6 +88,17 @@ export async function registerUser(username,password,role){
 
   body:JSON.stringify({username,password,role})
 
+ })
+
+ return res.json()
+}
+
+export async function sendChatMessage(message, location = null){
+
+ const res = await fetch(`${API}/chatbot/ask`,{
+  method:"POST",
+  headers:{"Content-Type":"application/json"},
+  body:JSON.stringify({message, location})
  })
 
  return res.json()

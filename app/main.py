@@ -15,14 +15,15 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-from app.routes import auth, donor, ngo, admin, verification, eta
+from app.routes import auth, donor, ngo, admin, verification, eta, chatbot
 app.include_router(auth.router)
 app.include_router(donor.router)
 app.include_router(ngo.router)
 app.include_router(admin.router)
 app.include_router(verification.router)
 app.include_router(eta.router)
+app.include_router(chatbot.router)
 
 @app.get("/")
 def root():
-    return {"status": "MajorProj running"}
+    return {"routes": [r.path for r in app.routes]}
