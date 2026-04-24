@@ -5,17 +5,17 @@ app = FastAPI(title="FoodBridge API")
 
 origins = [
     "http://localhost:5173",
-    "http://127.0.0.1:5173"
+    "http://127.0.0.1:5173",
 ]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-from app.routes import auth, donor, ngo, admin, verification, eta, chatbot
+from app.routes import auth, donor, ngo, admin, verification, eta, chatbot, organizations
 app.include_router(auth.router)
 app.include_router(donor.router)
 app.include_router(ngo.router)
@@ -23,6 +23,7 @@ app.include_router(admin.router)
 app.include_router(verification.router)
 app.include_router(eta.router)
 app.include_router(chatbot.router)
+app.include_router(organizations.router)
 
 @app.get("/")
 def root():

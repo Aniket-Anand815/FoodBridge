@@ -1,8 +1,21 @@
-const API="http://127.0.0.1:8001"
+// Dynamically resolve API base URL for localhost and GitHub Codespaces
+function getApiBase() {
+ const { hostname, protocol } = window.location;
+ // GitHub Codespaces: hostname looks like "<name>-5173.app.github.dev"
+ if (hostname.includes("app.github.dev")) {
+  // Replace the frontend port (5173) with the backend port (8000)
+  const backendHost = hostname.replace("-5173.", "-8000.");
+  return `${protocol}//${backendHost}`;
+ }
+ // Local development
+ return "http://127.0.0.1:8000";
+}
+
+const API = getApiBase();
 
 export async function loginUser(username,password){
 
- const res = await fetch("http://127.0.0.1:8001/auth/login",{
+ const res = await fetch(`${API}/auth/login`,{
 
   method:"POST",
 
@@ -76,9 +89,10 @@ export async function predictEta(distance){
 
  return res.json()
 }
+
 export async function registerUser(username,password,role){
 
- const res = await fetch("http://127.0.0.1:8001/auth/register",{
+ const res = await fetch(`${API}/auth/register`,{
 
   method:"POST",
 
@@ -90,6 +104,16 @@ export async function registerUser(username,password,role){
 
  })
 
+ return res.json()
+}
+
+export async function getOrganizations(){
+ const res = await fetch(`${API}/organizations/all`)
+ return res.json()
+}
+
+export async function getNearbyOrganizations(lat, lng){
+ const res = await fetch(`${API}/organizations/nearby?lat=${lat}&lng=${lng}`)
  return res.json()
 }
 
